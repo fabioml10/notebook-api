@@ -1,0 +1,32 @@
+web:
+  build: .
+  ports: ["3010:3010"]
+  tty: true
+  stdin_open: true
+  expose: ["3010"]
+  environment:
+    - RAILS_ENV=development
+    - REDIS_URL=redis://@redis:6380/15
+    - API_AUTHORIZATION=development
+  links:
+    - db
+    - redis
+  volumes:
+    - ".:/notebook-api"
+
+db:
+  image: postgres:10.5
+  environment:
+    POSTGRES_PASSWORD: password
+    POSTGRES_USER: notebook-api
+  ports: ["5433:5432"]
+  expose: ["5433"]
+
+redis:
+  container_name: notebook-api-redis
+  image: redis:alpine
+  command: redis-server --port 6380
+  ports:
+    - "6380:6380"
+  expose:
+    - "6380"
