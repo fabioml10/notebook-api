@@ -1,9 +1,9 @@
 web:
   build: .
-  ports: ["3010:3010"]
+  ports: ["3000:3000"]
   tty: true
   stdin_open: true
-  expose: ["3010"]
+  expose: ["3000"]
   environment:
     - RAILS_ENV=development
     - REDIS_URL=redis://@redis:6380/15
