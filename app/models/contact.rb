@@ -3,8 +3,7 @@ class Contact < ApplicationRecord
   has_many :phones
   accepts_nested_attributes_for :phones, allow_destroy: true
   has_one :address
-  accepts_nested_attributes_for :address, allow_destroy: true
-
+  accepts_nested_attributes_for :address, update_only: true #nao cria novos registros, sempre atualzia o ultimo
 
   def kind_description
     self.kind.description
@@ -14,8 +13,8 @@ class Contact < ApplicationRecord
     super(
       root: true,
       except: [:updated_at, :created_at],
-      methods: [:kind_description, :test_i18n],
-      include: [:phones]
+      # methods: [:kind_description, :test_i18n],
+      include: [:kind, :phones, :address]
       )
   end
 
