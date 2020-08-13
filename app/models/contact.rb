@@ -1,6 +1,7 @@
 class Contact < ApplicationRecord
   belongs_to :kind
   has_many :phones
+  accepts_nested_attributes_for :phones, allow_destroy: true
 
   def kind_description
     self.kind.description
@@ -10,7 +11,8 @@ class Contact < ApplicationRecord
     super(
       root: true,
       except: [:updated_at, :created_at],
-      methods: [:kind_description, :test_i18n]
+      methods: [:kind_description, :test_i18n],
+      include: [:phones]
       )
   end
 
