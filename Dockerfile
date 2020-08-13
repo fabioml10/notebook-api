@@ -20,4 +20,4 @@ ADD . $APP_HOME
 RUN bundle install
 ENTRYPOINT ["sh", "./docker-entrypoint.sh"]
 
-CMD ["rails", "server", "--binding", "0.0.0.0:3010"]
+CMD ["rails", "server", "--binding", "0.0.0.0"]
