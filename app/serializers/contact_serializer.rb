@@ -2,17 +2,16 @@ class ContactSerializer < ActiveModel::Serializer
   attributes :id, :name, :email, :birthdate#, :custom_att
 
   belongs_to :kind do
-    link(:related) { contact_kind_url(object.kind.id) }
+    link(:related) { contact_kind_url(object.id) }
   end
 
   has_many :phones do
-    link(:related) { contact_phones_url(object.kind.id) }
+    link(:related) { contact_phones_url(object.id) }
   end
 
-  has_one :address
-
-  # link(:self) { contact_url(object.id) }
-  # link(:kind) { kind_url(object.kind.id) }
+  has_one :address do
+    link(:related) { contact_address_url(object.id) }
+  end
 
   def attributes(*args)
     h = super(*args)

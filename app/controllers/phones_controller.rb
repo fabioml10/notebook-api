@@ -11,8 +11,4 @@ class PhonesController < ApplicationController
     @phones = Contact.find(params[:contact_id]).phones
   end
 
-  # Only allow a trusted parameter "white list" through.
-  def kind_params
-    params.require(:kind).permit(:description)
-  end
 end
