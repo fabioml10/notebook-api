@@ -7,12 +7,13 @@ class ContactsController < ApplicationController
     #or only or except #see as_json on model
     #include is not performatic (several selects)
     # render json: @contacts, only: [:id, :name, :email, :birthdate], include: { kind: { only: [:description] } }
-    render json: @contacts #see model
+    render json: @contacts, include: [:kind], meta: { author: "Fabio Muller"} #see model
   end
 
   # GET /contacts/1
   def show
-    render json: @contact, root: true
+    # render json: @contact, root: true
+    render json: @contact, include: [:kind], meta: { author: "Fabio Muller"}
   end
 
   # POST /contacts
