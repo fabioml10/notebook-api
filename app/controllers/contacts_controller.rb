@@ -7,13 +7,13 @@ class ContactsController < ApplicationController
     #or only or except #see as_json on model
     #include is not performatic (several selects)
     # render json: @contacts, only: [:id, :name, :email, :birthdate], include: { kind: { only: [:description] } }
-    render json: @contacts, include: [:kind], meta: { author: "Fabio Muller"} #see model
+    render json: @contacts, include: [:kind, :address, :phone], meta: { author: "Fabio Muller"} #see model
   end
 
   # GET /contacts/1
   def show
     # render json: @contact, root: true
-    render json: @contact, include: [:kind], meta: { author: "Fabio Muller"}
+    render json: @contact, include: [:kind, :address, :phone], meta: { author: "Fabio Muller"}
   end
 
   # POST /contacts
@@ -49,8 +49,9 @@ class ContactsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def contact_params
-      params.require(:contact).permit(:name, :email, :birthdate, :kind_id,
-      phones_attributes: [:id, :number, :_destroy],
-      address_attributes: [:id, :street, :city])
+      ActiveModelSerializers::Deserialization.jsonapi_parse(params)
+      # params.require(:contact).permit(:name, :email, :birthdate, :kind_id,
+      # phones_attributes: [:id, :number, :_destroy],
+      # address_attributes: [:id, :street, :city])
     end
 end
