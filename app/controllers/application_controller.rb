@@ -10,5 +10,6 @@ class ApplicationController < ActionController::API
         return if request.headers["Content-Type"] =~ /application\/vnd\.api\+json/
         render nothing: true, status: 415
       end
+    end
   end
 end

@@ -3,7 +3,10 @@ class ContactsController < ApplicationController
 
   # GET /contacts
   def index
-    @contacts = Contact.all
+    page_number = params[:page].try(:[], :number)
+    page_size = params[:page].try(:[], :size)
+
+    @contacts = Contact.all.page(page_number).per(page_size)
     #or only or except #see as_json on model
     #include is not performatic (several selects)
     # render json: @contacts, only: [:id, :name, :email, :birthdate], include: { kind: { only: [:description] } }
