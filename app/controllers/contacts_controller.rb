@@ -11,13 +11,18 @@ class ContactsController < ApplicationController
     #or only or except #see as_json on model
     #include is not performatic (several selects)
     # render json: @contacts, only: [:id, :name, :email, :birthdate], include: { kind: { only: [:description] } }
-    render json: @contacts, include: [:kind, :address, :phone], meta: { author: "Fabio Muller"} #see model
+    expires_in 10.seconds, public: true #cache-control
+    if stale?(etag: @contacts)
+      render json: @contacts, include: [:kind, :address, :phone], meta: { author: "Fabio Muller"}, status: :ok #see model
+    end
   end
 
   # GET /contacts/1
   def show
     # render json: @contact, root: true
-    render json: @contact, include: [:kind, :address, :phone], meta: { author: "Fabio Muller"}
+    if stale?(last_modified: @contact.updated_at)
+      render json: @contact, include: [:kind, :address, :phone], meta: { author: "Fabio Muller"}
+    end
   end
 
   # POST /contacts
