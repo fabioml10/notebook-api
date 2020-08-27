@@ -45,6 +45,8 @@ group :development, :test do
 
   #Faker generates data at random
   gem 'faker'
+
+  gem 'rspec-rails'
 end
 
 group :development do
